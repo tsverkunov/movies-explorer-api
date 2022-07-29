@@ -1,38 +1,87 @@
-
 const Movie = require('../models/movie');
 
+const DataError = require('../errors/DataError');
+const NotFoundError = require('../errors/NotFoundError');
+const OwnerError = require('../errors/OwnerError');
 
-// module.exports.createUser = (req, res, next) => {
-//   const {
-//     name,
-//     email,
-//     password,
-//   } = req.body;
-//
-//   if (!email || !password) {
-//     throw new DataError('Не введен email или пароль.');
-//   }
-//   bcrypt.hash(password, 10)
-//     .then((hash) => User.create({
-//         name,
-//         email,
-//         password: hash,
-//       }),
-//     )
-//     .then((user) => {
-//       res.send({
-//         _id: user._id,
-//         name: user.name,
-//         email: user.email,
-//       });
-//     })
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         return next(new DataError('Пользователь с указанным _id не найден.'));
-//       }
-//       if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
-//         return next(new DuplicateError('Email занят'));
-//       }
-//       return next(err);
-//     });
-// };
+module.exports.getMovies = (req, res, next) => {
+  Movie.find({})
+    .then((movies) => {
+      if (!movies) {
+        throw new DataError('Фильмы не получены.');
+      }
+      res.send({ movies });
+    })
+    .catch(next);
+};
+
+module.exports.createMovie = (req, res, next) => {
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
+  } = req.body;
+
+  const owner = req.user._id;
+
+  Movie.create(
+    {
+      country,
+      director,
+      duration,
+      year,
+      description,
+      image,
+      trailerLink,
+      thumbnail,
+      owner,
+      movieId,
+      nameRU,
+      nameEN,
+    },
+  )
+    .then((movie) => res.send({ movie }))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return next(new DataError('Переданы некорректные данные при создании фильма.'));
+      }
+
+      return next(err);
+    });
+};
+
+module.exports.deleteMovie = (req, res, next) => {
+  Movie.findById(req.params.movieId)
+    .then((movie) => {
+      if (!movie) {
+        throw new NotFoundError('Фильм с указанным _id не найдена.');
+      }
+      if (String(movie.owner) !== String(req.user._id)) {
+        throw new OwnerError('Вы не можете удалить чужой фильм.');
+      }
+    })
+    .then(() => {
+      Movie.findByIdAndRemove(req.params.movieId)
+        .then((movie) => {
+          if (!movie) {
+            throw new NotFoundError('Фильм с указанным _id не найден.');
+          }
+          return res.send({ movie });
+        })
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            return next(new DataError('Фильм с указанным _id не найден.'));
+          }
+          return next(err);
+        });
+    })
+    .catch(next);
+};

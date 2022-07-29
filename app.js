@@ -27,7 +27,7 @@ app.use('/signin', require('./routes/signin'));
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
-// app.use('/movies', require('./routes/movies'));
+app.use('/movies', require('./routes/movies'));
 
 app.use((req, res, next) => next(new NotFoundError('Страница не найдена')));
 

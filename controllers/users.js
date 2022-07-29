@@ -45,8 +45,6 @@ module.exports.createUser = (req, res, next) => {
 };
 
 module.exports.getProfile = (req, res, next) => {
-  console.log(req.body);
-
   User.findById(req.user._id)
     .then((user) => res.send({ user }))
     .catch((err) => {
@@ -102,15 +100,14 @@ module.exports.login = (req, res, next) => {
     })
     .then((user) => ({
       token: createToken({ _id: user._id }),
-      user,
     }))
-    .then(({ token, user }) => {
+    .then(({ token }) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
       });
 
-      return res.send({ user });
+      return res.send({ token });
     })
     .catch((err) => {
       if (err.statusCode === EMAIL_OR_PASSWORD_ERROR_CODE) {
