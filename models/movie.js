@@ -32,7 +32,7 @@ const movieSchema = new mongoose.Schema({
     validate: urlValidation,
     required: true,
   },
-  thumbnail : {
+  thumbnail: {
     type: String,
     validate: urlValidation,
     required: true,

@@ -1,5 +1,5 @@
-const router = require('express').Router()
-const {celebrate, Joi} = require("celebrate");
+const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
 const { urlValidation } = require('../utils/urlValidator');
 const { getMovies, deleteMovie, createMovie } = require('../controllers/movies');
 
@@ -36,4 +36,4 @@ router.delete(
   deleteMovie,
 );
 
-module.exports = router
+module.exports = router;

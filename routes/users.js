@@ -1,6 +1,6 @@
-const router = require('express').Router()
-const {celebrate, Joi} = require("celebrate");
-const { getProfile, updateProfile } = require("../controllers/users");
+const router = require('express').Router();
+const { celebrate, Joi } = require('celebrate');
+const { getProfile, updateProfile } = require('../controllers/users');
 
 router.get('/me', getProfile);
 
@@ -15,4 +15,4 @@ router.patch(
   updateProfile,
 );
 
-module.exports = router
+module.exports = router;

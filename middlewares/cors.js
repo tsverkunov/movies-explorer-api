@@ -1,4 +1,8 @@
 const allowedCors = [
+  'http://it.dip.students.nomoredomains.xyz/',
+  'http://api.it.dip.students.nomoredomains.xyz/',
+  'https://it.dip.students.nomoredomains.xyz/',
+  'https://api.it.dip.students.nomoredomains.xyz/',
   'localhost:3000',
   'http://localhost:3000',
 ];
@@ -18,7 +22,6 @@ module.exports.cors = (req, res, next) => {
     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
     res.header('Access-Control-Allow-Headers', requestHeaders);
     res.header('Access-Control-Allow-Credentials', true);
-    return res.end();
   }
 
   next();
