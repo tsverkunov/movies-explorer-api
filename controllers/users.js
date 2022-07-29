@@ -116,3 +116,12 @@ module.exports.login = (req, res, next) => {
       return next(err);
     });
 };
+
+module.exports.logout = (req, res, next) => {
+  try {
+    res.clearCookie('jwt');
+    return res.end();
+  } catch (err) {
+    return next(err);
+  }
+};

@@ -24,8 +24,10 @@ mongoose.connect('mongodb://localhost:27017/diplomdb')
 app.use('/signup', require('./routes/signup'));
 app.use('/signin', require('./routes/signin'));
 
+
 app.use(auth);
 
+app.use('/signout', require('./routes/signout'));
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
 
