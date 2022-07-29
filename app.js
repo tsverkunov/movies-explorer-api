@@ -1,17 +1,29 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const rateLimit = require('express-rate-limit')
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const { errors } = require('celebrate');
 const { centralErrorProcessing } = require('./middlewares/centralErrorProcessing');
-const NotFoundError = require('./errors/NotFoundError');
 const { auth } = require('./middlewares/auth');
+const { cors } = require('./middlewares/cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFoundError = require('./errors/NotFoundError');
 
 const { PORT = 3000 } = process.env;
 
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
+app.use(cors)
+
+app.use(requestLogger);
+app.use(limiter)
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -30,6 +42,8 @@ app.use(auth);
 app.use('/signout', require('./routes/signout'));
 app.use('/users', require('./routes/users'));
 app.use('/movies', require('./routes/movies'));
+
+app.use(errorLogger);
 
 app.use((req, res, next) => next(new NotFoundError('Страница не найдена')));
 
