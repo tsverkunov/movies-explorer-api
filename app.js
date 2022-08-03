@@ -29,7 +29,6 @@ mongoose.connect(NODE_ENV === 'production' ? LINK_MONGO : 'mongodb://localhost:2
   .catch((e) => console.log(e));
 
 app.use(require('./routes/signup'));
-// app.use(require('./routes/signin'));
 
 app.use(auth);
 
