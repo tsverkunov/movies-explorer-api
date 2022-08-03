@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
-const { MONGO_DUPLICATE_ERROR_CODE, EMAIL_OR_PASSWORD_ERROR_CODE } = require('../utils/constants');
+const { MONGO_DUPLICATE_ERROR_CODE } = require('../utils/constants');
 
 const DataError = require('../errors/DataError');
 const DuplicateError = require('../errors/DuplicateError');
@@ -15,10 +15,6 @@ module.exports.createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
-
-  if (!email || !password) {
-    throw new DataError('Не введен email или пароль.');
-  }
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
@@ -70,11 +66,8 @@ module.exports.updateProfile = (req, res, next) => {
       return res.send({ user });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new DataError('Переданы некорректные данные при обновлении профиля.'));
-      }
-      if (err.name === 'CastError') {
-        return next(new DataError('Пользователь с указанным _id не найден.'));
+      if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
+        return next(new DuplicateError('Email занят'));
       }
       return next(err);
     });
@@ -82,7 +75,6 @@ module.exports.updateProfile = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
@@ -108,12 +100,7 @@ module.exports.login = (req, res, next) => {
 
       return res.send({ token });
     })
-    .catch((err) => {
-      if (err.statusCode === EMAIL_OR_PASSWORD_ERROR_CODE) {
-        return next(new EmailOrPasswordError(err.message));
-      }
-      return next(err);
-    });
+    .catch((err) => next(err));
 };
 
 module.exports.logout = (req, res, next) => {
