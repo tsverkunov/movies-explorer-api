@@ -1,15 +1,17 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
+
 const { centralErrorProcessing } = require('./middlewares/centralErrorProcessing');
-const { auth } = require('./middlewares/auth');
 const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
+
 const NotFoundError = require('./errors/NotFoundError');
 
 const { PORT = 3000, LINK_MONGO, NODE_ENV } = process.env;
@@ -28,13 +30,7 @@ mongoose.connect(NODE_ENV === 'production' ? LINK_MONGO : 'mongodb://localhost:2
   .then(() => console.log('mongoose connected'))
   .catch((e) => console.log(e));
 
-app.use(require('./routes/signup'));
-
-app.use(auth);
-
-app.use(require('./routes/signout'));
-app.use(require('./routes/users'));
-app.use(require('./routes/movies'));
+app.use(require('./routes/index'));
 
 app.use(errorLogger);
 
