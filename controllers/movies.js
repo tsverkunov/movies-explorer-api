@@ -16,17 +16,17 @@ module.exports.getMovies = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  console.log(req.user);
   const {
     country,
     director,
+    created_at,
+    updated_at,
     duration,
     year,
     description,
     image,
     trailerLink,
-    thumbnail,
-    movieId,
+    id,
     nameRU,
     nameEN,
   } = req.body;
@@ -37,14 +37,15 @@ module.exports.createMovie = (req, res, next) => {
     {
       country,
       director,
+      created_at,
+      updated_at,
       duration,
       year,
       description,
       image,
       trailerLink,
-      thumbnail,
       owner,
-      movieId,
+      id,
       nameRU,
       nameEN,
     },
