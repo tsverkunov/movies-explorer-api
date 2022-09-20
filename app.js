@@ -13,6 +13,7 @@ const { centralErrorProcessing } = require('./middlewares/centralErrorProcessing
 // const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
+const { allowedCors } = require('./utils/corsAllowedCors')
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -22,7 +23,10 @@ const app = express();
 
 app.use(requestLogger);
 
-app.use(cors())
+app.use(cors({
+  origin: allowedCors,
+  credentials: true,
+}));
 
 app.use(limiter);
 app.use(helmet());
