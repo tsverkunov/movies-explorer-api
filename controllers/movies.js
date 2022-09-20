@@ -19,8 +19,6 @@ module.exports.createMovie = (req, res, next) => {
   const {
     country,
     director,
-    created_at,
-    updated_at,
     duration,
     year,
     description,
@@ -37,8 +35,6 @@ module.exports.createMovie = (req, res, next) => {
     {
       country,
       director,
-      created_at,
-      updated_at,
       duration,
       year,
       description,
