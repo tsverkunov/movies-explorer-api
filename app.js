@@ -7,9 +7,10 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const router = require('./routes/index')
+const cors = require('cors')
 
 const { centralErrorProcessing } = require('./middlewares/centralErrorProcessing');
-const { cors } = require('./middlewares/cors');
+// const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
 
@@ -21,7 +22,7 @@ const app = express();
 
 app.use(requestLogger);
 
-app.use(cors);
+app.use(cors())
 
 app.use(limiter);
 app.use(helmet());
