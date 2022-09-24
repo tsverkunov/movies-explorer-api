@@ -5,7 +5,8 @@ const NotFoundError = require('../errors/NotFoundError');
 const OwnerError = require('../errors/OwnerError');
 
 module.exports.getMovies = (req, res, next) => {
-  Movie.find({})
+  const owner = req.user._id;
+  Movie.find({owner})
     .then((movies) => {
       if (!movies) {
         throw new DataError('Фильмы не получены.');
