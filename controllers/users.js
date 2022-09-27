@@ -75,6 +75,7 @@ module.exports.updateProfile = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
+
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
@@ -89,27 +90,30 @@ module.exports.login = (req, res, next) => {
           return user;
         });
     })
-    .then((user) => ({
-      token: createToken({ _id: user._id }),
-    }))
-    .then(({ token }) => {
+    .then((user) => {
+      const token = createToken({ _id: user._id })
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         secure: true,
-        sameSite: 'None'
-      });
-
-      return res.send({ token });
+        sameSite: 'None',
+      })
+        .send({
+          name: user.name,
+          email: user.email,
+          _id: user._id,
+        });
     })
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 module.exports.logout = (req, res, next) => {
-  try {
-    res.clearCookie('jwt');
-    return res.end();
-  } catch (err) {
-    return next(err);
-  }
+  const { email } = req.body;
+
+  User.findOne({ email })
+    .then(() => {
+      res.clearCookie('jwt', { httpOnly: true, sameSite: true })
+        .send({ message: 'User is logged out' });
+    })
+    .catch(next);
 };
