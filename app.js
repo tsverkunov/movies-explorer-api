@@ -10,7 +10,6 @@ const router = require('./routes/index')
 const cors = require('cors')
 
 const { centralErrorProcessing } = require('./middlewares/centralErrorProcessing');
-// const { cors } = require('./middlewares/cors');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
 const { allowedCors } = require('./utils/corsAllowedCors')
