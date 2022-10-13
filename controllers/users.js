@@ -91,12 +91,12 @@ module.exports.login = (req, res, next) => {
         });
     })
     .then((user) => {
-      const token = createToken({ _id: user._id })
+      const token = createToken({ _id: user._id });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
         secure: true,
-        sameSite: 'None',
+        sameSite: true,
       })
         .send({
           name: user.name,
@@ -112,7 +112,10 @@ module.exports.logout = (req, res, next) => {
 
   User.findOne({ email })
     .then(() => {
-      res.clearCookie('jwt', { httpOnly: true, sameSite: true })
+      res.clearCookie('jwt', {
+        httpOnly: true,
+        sameSite: true,
+      })
         .send({ message: 'User is logged out' });
     })
     .catch(next);
