@@ -7,7 +7,7 @@
 ## Стек
 
 * Node JS
-* Express
+* Express JS
 * Mongo DB
 * NGINX
 
