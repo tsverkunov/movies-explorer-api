@@ -1,7 +1,37 @@
 # Backend часть дипломной работы.
 
 
-### Публичный IP: [*158.160.0.133*](https://158.160.0.133 "Mesto")
+### [*Посмотреть проект*](https://it.dip.students.nomoredomains.xyz "Graduate work")
+### Домен сервера: [*https://api.it.dip.students.nomoredomains.xyz*](https://api.it.dip.students.nomoredomains.xyz "Graduate work")
 
-### Домен: [*https://it.dip.students.nomoredomains.xyz*](https://it.dip.students.nomoredomains.xyz "Mesto")
-### Домен сервера: [*https://api.it.dip.students.nomoredomains.xyz*](https://api.it.dip.students.nomoredomains.xyz "Mesto")
+## Стек
+
+* Node JS
+* Express JS
+* Mongo DB
+* NGINX
+
+
+***
+
+**Запуск приложения**
+
+Для запуска приложения клонируйте код на свою машину. 
+```sh
+git clone
+```
+
+Установите необходимые пакеты с помощью команды
+```sh
+npm install
+```
+
+Старт приложения 
+```sh
+npm start
+```
+
+Старт приложения в режиме разработки
+```sh
+npm run dev
+```
