@@ -8,10 +8,10 @@
 
 ## Стек
 
-() Node JS
-Express
-Mongo DB
-NGINX
+* Node JS
+* Express
+* Mongo DB
+* NGINX
 
 
 ***
