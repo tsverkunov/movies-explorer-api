@@ -4,8 +4,6 @@
 ### [*Посмотреть проект*](https://it.dip.students.nomoredomains.xyz "Graduate work")
 ### Домен сервера: [*https://api.it.dip.students.nomoredomains.xyz*](https://api.it.dip.students.nomoredomains.xyz "Graduate work")
 
-***
-
 ## Стек
 
 * Node JS
