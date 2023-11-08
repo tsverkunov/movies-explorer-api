@@ -6,13 +6,13 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const router = require('./routes/index')
-const cors = require('cors')
+const cors = require('cors');
+const router = require('./routes/index');
 
 const { centralErrorProcessing } = require('./middlewares/centralErrorProcessing');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { limiter } = require('./middlewares/limiter');
-const { allowedCors } = require('./utils/corsAllowedCors')
+const { allowedCors } = require('./utils/corsAllowedCors');
 
 const NotFoundError = require('./errors/NotFoundError');
 
@@ -32,7 +32,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-mongoose.connect(NODE_ENV === 'production' ? LINK_MONGO : 'mongodb://localhost:27017/devdb')
+mongoose.connect(NODE_ENV === 'production' ? LINK_MONGO : 'mongodb://mongo:27017/db')
   .then(() => console.log('mongoose connected'))
   .catch((e) => console.log(e));
 
