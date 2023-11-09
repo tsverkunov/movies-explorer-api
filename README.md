@@ -10,29 +10,24 @@
 * Express JS
 * Mongo DB
 * NGINX
-
+* Docker
 
 ***
 
+### Docker
+
 **Запуск приложения**
 
-Для запуска приложения необходимо установить [*Node JS*](https://nodejs.org)  
-Клонируйте код на свою машину. 
+Клонируйте код на свою машишу
 ```sh
-git clone
+git clone https://github.com/tsverkunov/movies-explorer-api.git
 ```
 
-Установите необходимые пакеты с помощью команды
+Запустите команду
 ```sh
-npm install
+docker-compose up
 ```
 
-Старт приложения 
-```sh
-npm start
-```
 
-Старт приложения в режиме разработки
-```sh
-npm run dev
-```
+
+
